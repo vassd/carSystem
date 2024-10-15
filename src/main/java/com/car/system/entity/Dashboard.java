@@ -15,4 +15,20 @@ public class Dashboard {
     @Id
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
+
+    public void displayCarStatus(Car car) {
+        System.out.println("---- Car Status ----");
+        displayEngineStatus(car);
+        displayFuelLevel(car);
+        System.out.println("--------------------");
+    }
+
+    private void displayEngineStatus(Car car) {
+        String status = car.getEngine().isRunning() ? "Running" : "Stopped";
+        System.out.println("Engine Status: " + status);
+    }
+
+    private void displayFuelLevel(Car car) {
+        System.out.println("Fuel Level: " + car.getFuelTank().getFuelLevel() + " liters");
+    }
 }
