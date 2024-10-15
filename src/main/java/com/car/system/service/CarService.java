@@ -52,4 +52,13 @@ public class CarService {
 
         return car;
     }
+
+    public double getFuelLevel(Long carId) {
+        Car car = carRepository.findById(carId)
+                .orElseThrow(() -> new RuntimeException("Car not found"));
+
+        car.getDashboard().displayCarStatus(car);
+
+        return car.getFuelTank().getFuelLevel();
+    }
 }

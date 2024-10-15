@@ -36,6 +36,6 @@ public class CarController {
 
     @GetMapping("/{id}/fuel-level")
     public double getFuelLevel(@PathVariable Long id) {
-        return 0.0;
+        return carService.getFuelLevel(id);
     }
 }
