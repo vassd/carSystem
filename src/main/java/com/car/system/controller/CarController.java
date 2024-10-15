@@ -24,8 +24,8 @@ public class CarController {
     }
 
     @PostMapping("/{id}/stop")
-    public Car stopCar(@PathVariable Long id)  {
-        return null;
+    public Car stopCar(@PathVariable Long id) throws EngineFailureException {
+        return carService.stopCar(id);
     }
 
     @PostMapping("/{id}/refuel")

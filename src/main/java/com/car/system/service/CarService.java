@@ -25,4 +25,17 @@ public class CarService {
 
         return car;
     }
+
+    public Car stopCar(Long carId) throws EngineFailureException {
+        Car car = carRepository.findById(carId)
+                .orElseThrow(() -> new RuntimeException("Car not found"));
+
+        car.getEngine().stop();
+
+        car = carRepository.save(car);
+        
+        car.getDashboard().displayCarStatus(car);
+
+        return car;
+    }
 }
