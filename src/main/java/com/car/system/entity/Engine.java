@@ -1,5 +1,6 @@
 package com.car.system.entity;
 
+import com.car.system.exception.EngineFailureException;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -17,4 +18,18 @@ public class Engine {
     private Long id;
 
     private boolean isRunning = false;
+
+    public void start() throws EngineFailureException {
+        if (Math.random() < 0.1) {
+            throw new EngineFailureException("Engine failed to start.");
+        }
+        this.isRunning = true;
+    }
+
+    public void stop() throws EngineFailureException {
+        if (Math.random() < 0.1) {
+            throw new EngineFailureException("Engine failed to stop.");
+        }
+        this.isRunning = false;
+    }
 }
