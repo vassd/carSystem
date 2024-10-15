@@ -1,0 +1,29 @@
+services:
+  app:
+    image: 'car-system-app:latest'
+    build:
+      context: .
+    container_name: app
+    depends_on:
+      - postgres
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/mydb
+      - SPRING_DATASOURCE_USERNAME=test
+      - SPRING_DATASOURCE_PASSWORD=pass
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+      - SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT=org.hibernate.dialect.PostgreSQLDialect
+    ports:
+      - "8081:8081"
+  postgres:
+    image: 'postgres'
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_PASSWORD=pass
+      - POSTGRES_USER=test
+      - POSTGRES_DB=mydb
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - "8080:8080"
