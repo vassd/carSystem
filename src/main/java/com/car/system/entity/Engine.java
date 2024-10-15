@@ -19,13 +19,15 @@ public class Engine {
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
 
-    private boolean isRunning = false;
+    private boolean isRunning;
+
+    private static final double FAILURE_LIMIT = 0.1;
 
     public void start() throws EngineFailureException, EngineRunningException {
         if (isRunning) {
             throw new EngineRunningException("Engine is already running.");
         }
-        if (Math.random() < 0.1) {
+        if (Math.random() < FAILURE_LIMIT) {
             throw new EngineFailureException("Engine failed to start.");
         }
         this.isRunning = true;
@@ -35,7 +37,7 @@ public class Engine {
         if (!isRunning) {
             throw new EngineStoppedException("Engine is already stopped.");
         }
-        if (Math.random() < 0.1) {
+        if (Math.random() < FAILURE_LIMIT) {
             throw new EngineFailureException("Engine failed to stop.");
         }
         this.isRunning = false;

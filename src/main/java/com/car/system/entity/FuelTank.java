@@ -27,7 +27,7 @@ public class FuelTank {
         fuelLevel -= 5;
     }
 
-    public void refuel(double amount) throws FuelOverflowException {
+    public void refuel(final double amount) throws FuelOverflowException {
         if (fuelLevel + amount > 50) {
             throw new FuelOverflowException("Too much fuel to refill the car.");
         }

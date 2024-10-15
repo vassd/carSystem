@@ -1,7 +1,12 @@
 package com.car.system.exception;
 
+import java.io.Serial;
+
 public class EngineFailureException extends Exception {
-    public EngineFailureException(String message) {
+    @Serial
+    public static final long serialVersionUID = 4328743;
+
+    public EngineFailureException(final String message) {
         super(message);
     }
 }

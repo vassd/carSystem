@@ -5,6 +5,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.Data;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import static jakarta.persistence.GenerationType.IDENTITY;
 
@@ -16,19 +18,21 @@ public class Dashboard {
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
 
-    public void displayCarStatus(Car car) {
-        System.out.println("---- Car Status ----");
+    private static final Logger LOG = LoggerFactory.getLogger(Dashboard.class);
+
+    public void displayCarStatus(final Car car) {
+        LOG.info("---- Car Status ----");
         displayEngineStatus(car);
         displayFuelLevel(car);
-        System.out.println("--------------------");
+        LOG.info("--------------------");
     }
 
-    private void displayEngineStatus(Car car) {
-        String status = car.getEngine().isRunning() ? "Running" : "Stopped";
-        System.out.println("Engine Status: " + status);
+    private void displayEngineStatus(final Car car) {
+        final String status = car.getEngine().isRunning() ? "Running" : "Stopped";
+        LOG.info("Engine Status: {}", status);
     }
 
-    private void displayFuelLevel(Car car) {
-        System.out.println("Fuel Level: " + car.getFuelTank().getFuelLevel() + " liters");
+    private void displayFuelLevel(final Car car) {
+        LOG.info("Fuel Level: {} liters", car.getFuelTank().getFuelLevel());
     }
 }

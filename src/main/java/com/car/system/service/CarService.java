@@ -3,17 +3,20 @@ package com.car.system.service;
 import com.car.system.entity.Car;
 import com.car.system.exception.*;
 import com.car.system.repository.CarRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
+@AllArgsConstructor
 public class CarService {
-    @Autowired
+
     private CarRepository carRepository;
 
-    public Car startCar(Long carId) throws FuelEmptyException, EngineFailureException, EngineRunningException {
+    private static final String CAR_NOT_FOUND = "Car not found";
+
+    public Car startCar(final Long carId) throws FuelEmptyException, EngineFailureException, EngineRunningException {
         Car car = carRepository.findById(carId)
-                .orElseThrow(() -> new RuntimeException("Car not found"));
+                .orElseThrow(() -> new RuntimeException(CAR_NOT_FOUND));
 
         car.getEngine().start();
         car.getFuelTank().consumeFuel();
@@ -25,9 +28,9 @@ public class CarService {
         return car;
     }
 
-    public Car stopCar(Long carId) throws EngineFailureException, EngineStoppedException {
+    public Car stopCar(final Long carId) throws EngineFailureException, EngineStoppedException {
         Car car = carRepository.findById(carId)
-                .orElseThrow(() -> new RuntimeException("Car not found"));
+                .orElseThrow(() -> new RuntimeException(CAR_NOT_FOUND));
 
         car.getEngine().stop();
 
@@ -38,9 +41,9 @@ public class CarService {
         return car;
     }
 
-    public Car refuelCar(Long carId, double amount) throws FuelOverflowException {
+    public Car refuelCar(final Long carId, final double amount) throws FuelOverflowException {
         Car car = carRepository.findById(carId)
-                .orElseThrow(() -> new RuntimeException("Car not found"));
+                .orElseThrow(() -> new RuntimeException(CAR_NOT_FOUND));
 
         car.getFuelTank().refuel(amount);
 
@@ -51,9 +54,9 @@ public class CarService {
         return car;
     }
 
-    public double getFuelLevel(Long carId) {
-        Car car = carRepository.findById(carId)
-                .orElseThrow(() -> new RuntimeException("Car not found"));
+    public double getFuelLevel(final Long carId) {
+        final Car car = carRepository.findById(carId)
+                .orElseThrow(() -> new RuntimeException(CAR_NOT_FOUND));
 
         car.getDashboard().displayCarStatus(car);
 
