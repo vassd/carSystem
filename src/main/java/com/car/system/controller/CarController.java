@@ -3,6 +3,7 @@ package com.car.system.controller;
 import com.car.system.entity.Car;
 import com.car.system.exception.EngineFailureException;
 import com.car.system.exception.FuelEmptyException;
+import com.car.system.exception.FuelOverflowException;
 import com.car.system.service.CarService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,8 +30,8 @@ public class CarController {
     }
 
     @PostMapping("/{id}/refuel")
-    public Car refuelCar(@PathVariable Long id, @RequestParam double amount) {
-        return null;
+    public Car refuelCar(@PathVariable Long id, @RequestParam double amount) throws FuelOverflowException {
+        return carService.refuelCar(id, amount);
     }
 
     @GetMapping("/{id}/fuel-level")

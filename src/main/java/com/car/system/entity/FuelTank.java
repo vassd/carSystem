@@ -1,6 +1,7 @@
 package com.car.system.entity;
 
 import com.car.system.exception.FuelEmptyException;
+import com.car.system.exception.FuelOverflowException;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -26,7 +27,10 @@ public class FuelTank {
         fuelLevel -= 5;
     }
 
-    public void refuel(double amount) {
-        this.fuelLevel = this.fuelLevel + amount;
+    public void refuel(double amount) throws FuelOverflowException {
+        if (fuelLevel + amount > 50) {
+            throw new FuelOverflowException("Too much fuel to refill the car.");
+        }
+        fuelLevel += amount;
     }
 }
