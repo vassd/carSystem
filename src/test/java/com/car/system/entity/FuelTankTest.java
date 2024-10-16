@@ -11,14 +11,14 @@ class FuelTankTest {
     private final FuelTank fuelTank  = new FuelTank();
 
     @Test
-    public void testConsumeFuel() throws FuelEmptyException {
+    void testConsumeFuel() throws FuelEmptyException {
         fuelTank.consumeFuel();
 
         assertEquals(fuelTank.getFuelLevel(), 45);
     }
 
     @Test
-    public void testConsumeFuelWithLowFuel() {
+    void testConsumeFuelWithLowFuel() {
         fuelTank.setFuelLevel(0);
 
         final FuelEmptyException exception = assertThrows(FuelEmptyException.class, fuelTank::consumeFuel);
@@ -26,7 +26,7 @@ class FuelTankTest {
     }
 
     @Test
-    public void testRefuel() throws FuelOverflowException {
+    void testRefuel() throws FuelOverflowException {
         fuelTank.setFuelLevel(0);
         fuelTank.refuel(50);
 
@@ -34,7 +34,7 @@ class FuelTankTest {
     }
 
     @Test
-    public void testRefuelWithTooMuchFuel() {
+    void testRefuelWithTooMuchFuel() {
         final FuelOverflowException exception = assertThrows(FuelOverflowException.class, () -> fuelTank.refuel(100));
         assertEquals("Too much fuel to refill the car.", exception.getMessage());
     }

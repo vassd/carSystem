@@ -16,14 +16,14 @@ class EngineTest {
     private final Engine engine  = new Engine();
 
     @Test
-    public void testStartEngineSuccess() throws EngineRunningException, EngineFailureException {
+    void testStartEngineSuccess() throws EngineRunningException, EngineFailureException {
         engine.start();
 
         assertTrue(engine.isRunning(), "Engine should be running after starting successfully.");
     }
 
     @Test
-    public void testStartEngineWhenAlreadyRunning() {
+    void testStartEngineWhenAlreadyRunning() {
         engine.setRunning(true);
 
         final EngineRunningException exception = assertThrows(EngineRunningException.class, engine::start);
@@ -31,7 +31,7 @@ class EngineTest {
     }
 
     @Test
-    public void testStartEngineFailure() {
+    void testStartEngineFailure() {
         engine.setRunning(false);
 
         try {
@@ -44,7 +44,7 @@ class EngineTest {
     }
 
     @Test
-    public void testStopEngineSuccess() throws EngineFailureException, EngineStoppedException {
+    void testStopEngineSuccess() throws EngineFailureException, EngineStoppedException {
         engine.setRunning(true);
 
         engine.stop();
@@ -53,7 +53,7 @@ class EngineTest {
     }
 
     @Test
-    public void testStopEngineWhenAlreadyStopped() {
+    void testStopEngineWhenAlreadyStopped() {
         engine.setRunning(false);
 
         final EngineStoppedException exception = assertThrows(EngineStoppedException.class, engine::stop);
@@ -61,7 +61,7 @@ class EngineTest {
     }
 
     @RepeatedTest(10)
-    public void testStopEngineFailure() {
+    void testStopEngineFailure() {
         engine.setRunning(true);
 
         try {
