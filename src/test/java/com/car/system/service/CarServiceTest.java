@@ -21,6 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -55,6 +56,7 @@ class CarServiceTest {
 
         assertTrue(car.getEngine().isRunning());
         assertEquals(car.getFuelTank().getFuelLevel(), 45);
+        verify(carRepository).findById(1L);
         verify(carRepository, times(1)).save(car);
 
         final String logs = output.getOut();
@@ -66,9 +68,11 @@ class CarServiceTest {
 
     @Test
     void testStartNotFound() {
-        when(carRepository.findById(1L)).thenReturn(null);
+        when(carRepository.findById(1L)).thenReturn(Optional.empty());
 
-        assertThrows(RuntimeException.class, () -> carService.startCar(1L));
+        RuntimeException exception = assertThrows(RuntimeException.class, () -> carService.startCar(1L));
+        assertEquals("Car not found", exception.getMessage(), "Exception message should match.");
+        verify(carRepository).findById(1L);
         verify(carRepository, never()).save(car);
     }
 
@@ -82,6 +86,7 @@ class CarServiceTest {
         carService.stopCar(1L);
 
         assertFalse(car.getEngine().isRunning());
+        verify(carRepository).findById(1L);
         verify(carRepository, times(1)).save(car);
 
         final String logs = output.getOut();
@@ -95,9 +100,11 @@ class CarServiceTest {
     void testStopNotFound() {
         car.getEngine().setRunning(true);
 
-        when(carRepository.findById(1L)).thenReturn(null);
+        when(carRepository.findById(1L)).thenReturn(Optional.empty());
 
-        assertThrows(RuntimeException.class, () -> carService.stopCar(1L));
+        RuntimeException exception = assertThrows(RuntimeException.class, () -> carService.stopCar(1L));
+        assertEquals("Car not found", exception.getMessage(), "Exception message should match.");
+        verify(carRepository).findById(1L);
         verify(carRepository, never()).save(car);
     }
 
@@ -111,6 +118,7 @@ class CarServiceTest {
         carService.refuelCar(1L, 50);
 
         assertEquals(car.getFuelTank().getFuelLevel(), 50);
+        verify(carRepository).findById(1L);
         verify(carRepository, times(1)).save(car);
 
         final String logs = output.getOut();
@@ -124,9 +132,11 @@ class CarServiceTest {
     void testRefuelNotFound() {
         car.getFuelTank().setFuelLevel(0);
 
-        when(carRepository.findById(1L)).thenReturn(null);
+        when(carRepository.findById(1L)).thenReturn(Optional.empty());
 
-        assertThrows(RuntimeException.class, () -> carService.refuelCar(1L, 50));
+        RuntimeException exception = assertThrows(RuntimeException.class, () -> carService.refuelCar(1L, 50));
+        assertEquals("Car not found", exception.getMessage(), "Exception message should match.");
+        verify(carRepository).findById(1L);
         verify(carRepository, never()).save(car);
     }
 
@@ -135,6 +145,7 @@ class CarServiceTest {
         when(carRepository.findById(1L)).thenReturn(Optional.of(car));
 
         assertEquals(carService.getFuelLevel(1L), 50);
+        verify(carRepository).findById(1L);
 
         final String logs = output.getOut();
         assert logs.contains("---- Car Status ----");
@@ -145,8 +156,10 @@ class CarServiceTest {
 
     @Test
     void testFuelLevelNotFound() {
-        when(carRepository.findById(1L)).thenReturn(null);
+        when(carRepository.findById(1L)).thenReturn(Optional.empty());
 
-        assertThrows(RuntimeException.class, () -> carService.getFuelLevel(1L));
+        RuntimeException exception = assertThrows(RuntimeException.class, () -> carService.getFuelLevel(1L));
+        assertEquals("Car not found", exception.getMessage(), "Exception message should match.");
+        verify(carRepository).findById(1L);
     }
 }
