@@ -47,6 +47,7 @@ An application to simulate the car mechanism.
 * **Linters:** PMD, SpotBugs, CheckStyle
 * **Testing:** JUnit, Mockito, Jacoco
 * **Open API:** Swagger
+* **CI/CD Tool:** GitHub Actions
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
