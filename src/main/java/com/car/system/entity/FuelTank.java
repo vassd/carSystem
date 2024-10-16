@@ -14,21 +14,24 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 @Table(name = "fueltanks")
 @Data
 public class FuelTank {
+    public static final int MAX_LEVEL = 50;
+    public static final int FUEL_FOR_START = 5;
+
     @Id
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
 
-    private double fuelLevel = 50;
+    private double fuelLevel = MAX_LEVEL;
 
     public void consumeFuel() throws FuelEmptyException {
-        if (fuelLevel < 5) {
+        if (fuelLevel < FUEL_FOR_START) {
             throw new FuelEmptyException("Not enough fuel to start the car.");
         }
-        fuelLevel -= 5;
+        fuelLevel -= FUEL_FOR_START;
     }
 
     public void refuel(final double amount) throws FuelOverflowException {
-        if (fuelLevel + amount > 50) {
+        if (fuelLevel + amount > MAX_LEVEL) {
             throw new FuelOverflowException("Too much fuel to refill the car.");
         }
         fuelLevel += amount;
